@@ -2,7 +2,7 @@
   <div class="container">
     <form class="card" @submit.prevent="submitHandler">
       <h1>Vue developer application form!</h1>
-      <div class="form-control">
+      <div class="form-control" :class="{ invalid: errors.name }">
         <label for="name">What is your name?</label>
         <input
           class="input"
@@ -11,6 +11,7 @@
           placeholder="Enter your name"
           v-model.trim="name"
         />
+        <small v-if="errors.name">{{ errors.name }}</small>
       </div>
 
       <div class="form-control">
@@ -104,18 +105,33 @@ export default {
       city: "Odesa",
       relocate: null,
       skills: [],
+      errors: {
+        name: null,
+      },
     };
   },
   components: {},
   methods: {
+    formIsValid() {
+      let isValid = true;
+      if (this.name.length === 0) {
+        this.errors.name = "Please, enter your name";
+        isValid = false;
+      } else {
+        this.errors.name = null;
+      }
+      return isValid;
+    },
     submitHandler() {
-      console.group("Form Data");
-      console.log("Name", this.name);
-      console.log("Age", this.age);
-      console.log("City", this.city);
-      console.log("Relocate", this.relocate);
-      console.log("Skills", this.skills);
-      console.groupEnd();
+      if (this.formIsValid()) {
+        console.group("Form Data");
+        console.log("Name", this.name);
+        console.log("Age", this.age);
+        console.log("City", this.city);
+        console.log("Relocate", this.relocate);
+        console.log("Skills", this.skills);
+        console.groupEnd();
+      }
     },
   },
 };
@@ -147,5 +163,11 @@ export default {
   box-sizing: border-box;
   /* margin-left: 10px; */
   padding: 5px 20px;
+}
+small {
+  color: rgb(138, 40, 40);
+}
+.form-control.invalid input {
+  border-color: rgb(138, 40, 40);
 }
 </style>
