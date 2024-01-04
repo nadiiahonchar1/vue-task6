@@ -2,7 +2,7 @@
   <div class="container">
     <form class="card" @submit.prevent="submitHandler">
       <h1>Vue developer application form!</h1>
-      <div class="form-control" :class="{ invalid: errors.name }">
+      <!-- <div class="form-control" :class="{ invalid: errors.name }">
         <label for="name">What is your name?</label>
         <input
           class="input"
@@ -12,7 +12,13 @@
           v-model.trim="name"
         />
         <small v-if="errors.name">{{ errors.name }}</small>
-      </div>
+      </div> -->
+      <app-input
+        placeholder="Enter your name"
+        :error="errors.name"
+        label="What is your name?"
+        v-model.trim="name"
+      ></app-input>
 
       <div class="form-control">
         <label for="age">Choose your age</label>
@@ -96,6 +102,7 @@
 </template>
 
 <script>
+import AppInput from "./components/AppInput.vue";
 export default {
   name: "App",
   data() {
@@ -110,7 +117,7 @@ export default {
       },
     };
   },
-  components: {},
+  components: { AppInput },
   methods: {
     formIsValid() {
       let isValid = true;
